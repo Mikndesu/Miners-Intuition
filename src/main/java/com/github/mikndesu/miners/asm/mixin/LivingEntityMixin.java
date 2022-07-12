@@ -12,6 +12,7 @@ import com.github.mikndesu.miners.MinersIntuition;
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +25,7 @@ public class LivingEntityMixin {
 
     List<Vec3i> searchVectorDirections = new ArrayList<>();
     List<Vec3i> searchVectorWhenWalking = new ArrayList<>();
+    List<BlockState> targetBlocks = ImmutableList.of(Blocks.DIAMOND_ORE.defaultBlockState(), Blocks.GOLD_ORE.defaultBlockState(), Blocks.IRON_ORE.defaultBlockState(), Blocks.ANCIENT_DEBRIS.defaultBlockState());
 
     @Inject(method= "tick()V", at=@At("HEAD"))
     private void inject(CallbackInfo ci) {
@@ -54,9 +56,9 @@ public class LivingEntityMixin {
                     BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
                     mutablePos.set(blockPos).move(direction);
                     BlockState bs = level.getBlockState(mutablePos).getBlock().defaultBlockState();
-                    if (bs.equals(Blocks.DIAMOND_ORE.defaultBlockState())) {
+                    if (targetBlocks.stream().anyMatch(s->s.equals(bs))) {
                         ArrayList<BlockPos> list = searchSameOres(new ArrayList<>(), bs, blockPos, level);
-                        MinersIntuition.LOGGER.error(list.size());
+                        MinersIntuition.LOGGER.error("{}: {}", bs.getBlock().getDescriptionId(), list.size());
                     }
                 }
             }
