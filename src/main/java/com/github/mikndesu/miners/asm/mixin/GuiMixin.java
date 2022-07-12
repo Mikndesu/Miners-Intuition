@@ -1,5 +1,6 @@
 package com.github.mikndesu.miners.asm.mixin;
 
+import com.github.mikndesu.miners.IntuitionResult;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,8 +34,16 @@ public class GuiMixin {
         modelMatrices.pushPose();
         modelMatrices.scale(1.0f, 1.0f, 1.0f);
         RenderSystem.applyModelViewMatrix();
-        textRenderer.draw(poseStack, "Text", 5, 5, -1);
-        itemRenderer.renderGuiItem(new ItemStack(Items.DIAMOND_ORE), 0, 20);
+        int i = 0;
+        for(var element:IntuitionResult.getInstance().getResult()) {
+            if(element.getValue() != 0) {
+                int baseX = 0;
+                int baseY = i * 20;
+                textRenderer.draw(poseStack, "\u00d7 " + String.valueOf(element.getValue()), baseX + 20, baseY+5, 0xFFFFFF);
+                itemRenderer.renderGuiItem(new ItemStack(element.getKey().getBlock().asItem()), baseX, baseY);
+                i++;
+            }
+        }
         modelMatrices.popPose();
         modelMatrices.popPose();
         RenderSystem.applyModelViewMatrix();

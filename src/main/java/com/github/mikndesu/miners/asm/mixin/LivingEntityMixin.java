@@ -2,15 +2,19 @@ package com.github.mikndesu.miners.asm.mixin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.github.mikndesu.miners.IntuitionResult;
 import com.github.mikndesu.miners.MinersIntuition;
 import com.google.common.collect.ImmutableList;
+import com.mojang.datafixers.util.Pair;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents.Init;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
@@ -49,7 +53,9 @@ public class LivingEntityMixin {
             }
         }
         if(livingEntity.getLevel().isClientSide()) {
-            if(livingEntity instanceof Player player && player.tickCount%60==0) {
+            if(livingEntity instanceof Player player && player.tickCount%15==0) {
+                IntuitionResult intuitionResult = IntuitionResult.getInstance();
+                intuitionResult.clearResult();
                 var level = player.getLevel();
                 var blockPos = player.blockPosition();
                 for (var direction : searchVectorWhenWalking) {
@@ -58,7 +64,9 @@ public class LivingEntityMixin {
                     BlockState bs = level.getBlockState(mutablePos).getBlock().defaultBlockState();
                     if (targetBlocks.stream().anyMatch(s->s.equals(bs))) {
                         ArrayList<BlockPos> list = searchSameOres(new ArrayList<>(), bs, blockPos, level);
-                        MinersIntuition.LOGGER.error("{}: {}", bs.getBlock().getDescriptionId(), list.size());
+                        if(intuitionResult.getResult().stream().noneMatch(s->bs.equals(s.getKey()))) {
+                            intuitionResult.getResult().add(new SimpleEntry(bs,Integer.valueOf(list.size())));
+                        }
                     }
                 }
             }
