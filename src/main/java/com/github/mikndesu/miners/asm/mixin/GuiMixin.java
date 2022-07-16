@@ -39,7 +39,8 @@ public class GuiMixin {
             if(element.getValue() != 0) {
                 int baseX = 0;
                 int baseY = i * 20;
-                textRenderer.draw(poseStack, "\u00d7 " + String.valueOf(element.getValue()), baseX + 20, baseY+5, 0xFFFFFF);
+                String text = element.getValue() > 30 ? "30+": String.valueOf(element.getValue());
+                textRenderer.draw(poseStack, "\u00d7 " + text, baseX + 20, baseY+5, 0xFFFFFF);
                 itemRenderer.renderGuiItem(new ItemStack(element.getKey().getBlock().asItem()), baseX, baseY);
                 i++;
             }
