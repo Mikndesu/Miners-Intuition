@@ -42,11 +42,12 @@ public class MinersIntuition implements ClientModInitializer {
     public static final String MOD_ID = "miners_intuition";
     public static final Logger LOGGER = LogManager.getLogger("MinersIntuition/Main");
     public static List<BlockState> acceptedBlocks = new ArrayList<>();
-    public static IntuitionConfig configHolder = AutoConfig.getConfigHolder(IntuitionConfig.class).getConfig();
+    public static IntuitionConfig configHolder;
 
     @Override
     public void onInitializeClient() {
         AutoConfig.register(IntuitionConfig.class, JanksonConfigSerializer::new);
+        configHolder = AutoConfig.getConfigHolder(IntuitionConfig.class).getConfig();
         for(var blockRegistryName:configHolder.registryNameList) {
             try {
                 var resourceLocation = new ResourceLocation(blockRegistryName);
