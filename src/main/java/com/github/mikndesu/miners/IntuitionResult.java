@@ -3,8 +3,6 @@ package com.github.mikndesu.miners;
 import java.util.ArrayList;
 import java.util.AbstractMap.SimpleEntry;
 
-import com.mojang.datafixers.util.Pair;
-
 import net.minecraft.world.level.block.state.BlockState;
 
 public class IntuitionResult {
