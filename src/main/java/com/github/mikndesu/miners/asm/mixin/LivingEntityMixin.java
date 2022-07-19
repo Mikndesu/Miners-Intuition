@@ -29,8 +29,6 @@ public class LivingEntityMixin {
 
     List<Vec3i> searchVectorDirections = new ArrayList<>();
     List<Vec3i> searchVectorWhenWalking = new ArrayList<>();
-    List<BlockState> targetBlocks = ImmutableList.of(Blocks.DIAMOND_ORE.defaultBlockState(), Blocks.GOLD_ORE.defaultBlockState(), Blocks.IRON_ORE.defaultBlockState(), Blocks.ANCIENT_DEBRIS.defaultBlockState()
-    ,Blocks.DEEPSLATE_DIAMOND_ORE.defaultBlockState(), Blocks.DEEPSLATE_GOLD_ORE.defaultBlockState(), Blocks.DEEPSLATE_IRON_ORE.defaultBlockState());
 
     @Inject(method= "tick()V", at=@At("HEAD"))
     private void inject(CallbackInfo ci) {
@@ -64,7 +62,7 @@ public class LivingEntityMixin {
                     mutablePos.set(blockPos).move(direction);
                     BlockState bs = level.getBlockState(mutablePos).getBlock().defaultBlockState();
                     int i = 0;
-                    if (targetBlocks.stream().anyMatch(s->s.equals(bs))) {
+                    if (MinersIntuition.acceptedBlocks.stream().anyMatch(s->s.equals(bs))) {
                         ArrayList<BlockPos> list = searchSameOres(new ArrayList<>(), bs, blockPos, level);
                         if(intuitionResult.getResult().stream().noneMatch(s->bs.equals(s.getKey()))) {
                             intuitionResult.getResult().add(new SimpleEntry(bs,Integer.valueOf(list.size())));
