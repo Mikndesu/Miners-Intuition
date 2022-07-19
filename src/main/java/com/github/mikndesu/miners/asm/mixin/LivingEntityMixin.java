@@ -28,9 +28,10 @@ public class LivingEntityMixin {
     private void inject(CallbackInfo ci) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         if(searchVectorWhenWalking.size() == 0) {
-            for(int i=-3;i<4;i++) {
-                for(int j=0;j<5;j++) {
-                    for(int k=-3;k<4;k++) {
+            int radius = MinersIntuition.configHolder.efficientRadius;
+            for(int i=-radius;i<radius+1;i++) {
+                for(int j=-radius;j<radius+1;j++) {
+                    for(int k=-radius;k<radius+1;k++) {
                         searchVectorWhenWalking.add(new Vec3i(i,j,k));
                     }
                 }
@@ -55,7 +56,6 @@ public class LivingEntityMixin {
                     BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
                     mutablePos.set(blockPos).move(direction);
                     BlockState bs = level.getBlockState(mutablePos).getBlock().defaultBlockState();
-                    int i = 0;
                     if (MinersIntuition.acceptedBlocks.stream().anyMatch(s->s.equals(bs))) {
                         ArrayList<BlockPos> list = searchSameOres(new ArrayList<>(), bs, mutablePos, level);
                         if(intuitionResult.getResult().stream().noneMatch(s->bs.equals(s.getKey()))) {
@@ -76,7 +76,6 @@ public class LivingEntityMixin {
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
             mutablePos.set(blockPos).move(direction);
             BlockState bs = level.getBlockState(mutablePos).getBlock().defaultBlockState();
-                int i = 0;
             if (bs.equals(blockState) && list.stream().noneMatch(s->s.equals(mutablePos))) {
                 list.add(mutablePos);
                 list = searchSameOres(list, blockState, mutablePos, level);

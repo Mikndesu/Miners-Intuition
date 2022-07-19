@@ -15,4 +15,5 @@ public class IntuitionConfig implements ConfigData {
     @RequiresRestart
     @Comment("Changes will be applied to your client after restarting.")
     public List<String> registryNameList = Arrays.asList("minecraft:diamond_ore", "minecraft:gold_ore", "minecraft:iron_ore", "minecraft:deepslate_diamond_ore", "minecraft:deepslate_gold_ore", "minecraft:deepslate_iron_ore");
+    public int efficientRadius = 4;
 }
