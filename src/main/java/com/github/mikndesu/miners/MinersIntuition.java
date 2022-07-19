@@ -21,7 +21,7 @@ public class MinersIntuition implements ClientModInitializer {
     public static final String MOD_ID = "miners_intuition";
     public static final Logger LOGGER = LogManager.getLogger("MinersIntuition/Main");
     public static List<BlockState> acceptedBlocks = new ArrayList<>();
-    IntuitionConfig configHolder = AutoConfig.getConfigHolder(IntuitionConfig.class).getConfig();
+    public static IntuitionConfig configHolder = AutoConfig.getConfigHolder(IntuitionConfig.class).getConfig();
 
     @Override
     public void onInitializeClient() {
