@@ -59,7 +59,7 @@ public class LivingEntityMixin {
                     if (MinersIntuition.acceptedBlocks.stream().anyMatch(s->s.equals(bs))) {
                         ArrayList<BlockPos> list = searchSameOres(new ArrayList<>(), bs, mutablePos, level);
                         if(intuitionResult.getResult().stream().noneMatch(s->bs.equals(s.getKey()))) {
-                            intuitionResult.getResult().add(new SimpleEntry(bs,Integer.valueOf(list.size())));
+                            intuitionResult.getResult().add(new SimpleEntry<BlockState,Integer>(bs,Integer.valueOf(list.size())));
                         }
                     }
                 }
