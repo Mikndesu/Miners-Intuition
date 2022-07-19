@@ -4,18 +4,23 @@
   "version": "${version}",
 
   "name": "Miner's intuition",
-  "description": "This mod gives you a special sight when you mine near-by rare ores",
+  "description": "This mod show overlay if there are rare ores near-by you",
   "authors": [
-    "Me!"
+    "Mikndesu"
   ],
   "contact": {
-    "homepage": "",
-    "sources": ""
+    "homepage": "https://mikndesu.github.io/mikndesu-website/",
+    "issues": "https://github.com/Mikndesu/Miners-Intuition/issues",
+    "sources": "https://github.com/Mikndesu/Miners-Intuition"
   },
+  "license": "MIT License",
   "environment": "*",
   "entrypoints": {
     "client": [
       "com.github.mikndesu.miners.MinersIntuition"
+    ],
+    "modmenu":[
+      "com.github.mikndesu.miners.client.screen.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -23,12 +28,13 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.6",
+    "fabricloader": ">=0.14.0",
     "fabric": "*",
-    "minecraft": "~1.19",
-    "java": ">=17"
+    "minecraft": "1.19.x",
+    "java": ">=17",
+    "cloth-config": "*"
   },
   "suggests": {
-    "another-mod": "*"
+    "modmenu": "*"
   }
 }
