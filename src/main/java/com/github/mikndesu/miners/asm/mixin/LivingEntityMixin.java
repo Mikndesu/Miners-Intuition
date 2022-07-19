@@ -29,15 +29,16 @@ public class LivingEntityMixin {
 
     List<Vec3i> searchVectorDirections = new ArrayList<>();
     List<Vec3i> searchVectorWhenWalking = new ArrayList<>();
-    List<BlockState> targetBlocks = ImmutableList.of(Blocks.DIAMOND_ORE.defaultBlockState(), Blocks.GOLD_ORE.defaultBlockState(), Blocks.IRON_ORE.defaultBlockState(), Blocks.ANCIENT_DEBRIS.defaultBlockState());
+    List<BlockState> targetBlocks = ImmutableList.of(Blocks.DIAMOND_ORE.defaultBlockState(), Blocks.GOLD_ORE.defaultBlockState(), Blocks.IRON_ORE.defaultBlockState(), Blocks.ANCIENT_DEBRIS.defaultBlockState()
+    ,Blocks.DEEPSLATE_DIAMOND_ORE.defaultBlockState(), Blocks.DEEPSLATE_GOLD_ORE.defaultBlockState(), Blocks.DEEPSLATE_IRON_ORE.defaultBlockState());
 
     @Inject(method= "tick()V", at=@At("HEAD"))
     private void inject(CallbackInfo ci) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         if(searchVectorWhenWalking.size() == 0) {
-            for(int i=-2;i<3;i++) {
-                for(int k=-2;k<3;k++) {
-                    for(int j=-2;j<3;j++) {
+            for(int i=-3;i<4;i++) {
+                for(int j=0;j<5;j++) {
+                    for(int k=-3;k<4;k++) {
                         searchVectorWhenWalking.add(new Vec3i(i,j,k));
                     }
                 }
@@ -53,15 +54,16 @@ public class LivingEntityMixin {
             }
         }
         if(livingEntity.getLevel().isClientSide()) {
-            if(livingEntity instanceof Player player && player.tickCount%15==0) {
+            if(livingEntity instanceof Player player && player.tickCount%3==0) {
                 IntuitionResult intuitionResult = IntuitionResult.getInstance();
                 intuitionResult.clearResult();
                 var level = player.getLevel();
-                var blockPos = player.blockPosition();
+                var blockPos = player.getOnPos();
                 for (var direction : searchVectorWhenWalking) {
                     BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
                     mutablePos.set(blockPos).move(direction);
                     BlockState bs = level.getBlockState(mutablePos).getBlock().defaultBlockState();
+                    int i = 0;
                     if (targetBlocks.stream().anyMatch(s->s.equals(bs))) {
                         ArrayList<BlockPos> list = searchSameOres(new ArrayList<>(), bs, blockPos, level);
                         if(intuitionResult.getResult().stream().noneMatch(s->bs.equals(s.getKey()))) {
@@ -74,11 +76,15 @@ public class LivingEntityMixin {
     }
 
     private ArrayList<BlockPos> searchSameOres(ArrayList<BlockPos> list, BlockState blockState, BlockPos blockPos, Level level) {
-        if (list.size() >= 2000) return list;
+        if (list.size() >= 30) {
+            list.add(new BlockPos.MutableBlockPos());
+            return list;
+        }
         for (var direction : searchVectorDirections) {
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
             mutablePos.set(blockPos).move(direction);
             BlockState bs = level.getBlockState(mutablePos).getBlock().defaultBlockState();
+                int i = 0;
             if (bs.equals(blockState) && list.stream().noneMatch(s->s.equals(mutablePos))) {
                 list.add(mutablePos);
                 list = searchSameOres(list, blockState, mutablePos, level);
