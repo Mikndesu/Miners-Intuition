@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Miner's intuition",
-  "description": "This mod show overlay if there are rare ores near-by you",
+  "description": "This mod shows the overlay if there are rare ores near-by you",
   "authors": [
     "Mikndesu"
   ],
@@ -14,6 +14,7 @@
     "sources": "https://github.com/Mikndesu/Miners-Intuition"
   },
   "license": "MIT License",
+  "icon": "assets/miners_intuition/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
