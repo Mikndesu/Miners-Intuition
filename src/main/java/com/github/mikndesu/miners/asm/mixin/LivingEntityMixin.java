@@ -49,7 +49,7 @@ public class LivingEntityMixin {
     private void inject(CallbackInfo ci) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         if(searchVectorWhenWalking.size() == 0) {
-            int radius = MinersIntuition.configHolder.efficientRadius;
+            int radius = MinersIntuition.configHolder.effectiveRadius;
             for(int i=-radius;i<radius+1;i++) {
                 for(int j=-radius;j<radius+1;j++) {
                     for(int k=-radius;k<radius+1;k++) {
