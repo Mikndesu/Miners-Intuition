@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
 import com.github.mikndesu.miners.config.IntuitionConfig;
 
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Registry;
@@ -46,7 +46,7 @@ public class MinersIntuition implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        AutoConfig.register(IntuitionConfig.class, JanksonConfigSerializer::new);
+        AutoConfig.register(IntuitionConfig.class, GsonConfigSerializer::new);
         configHolder = AutoConfig.getConfigHolder(IntuitionConfig.class).getConfig();
         for(var blockRegistryName:configHolder.registryNameList) {
             try {
