@@ -47,26 +47,10 @@ public class LivingEntityMixin {
 
     @Inject(method= "tick()V", at=@At("HEAD"))
     private void inject(CallbackInfo ci) {
+        int radius = MinersIntuition.configHolder.effectiveRadius;
+        initArray(1, searchVectorWhenWalking);
+        initArray(radius, searchVectorDirections);
         LivingEntity livingEntity = (LivingEntity) (Object) this;
-        if(searchVectorWhenWalking.size() == 0) {
-            int radius = MinersIntuition.configHolder.effectiveRadius;
-            for(int i=-radius;i<radius+1;i++) {
-                for(int j=-radius;j<radius+1;j++) {
-                    for(int k=-radius;k<radius+1;k++) {
-                        searchVectorWhenWalking.add(new Vec3i(i,j,k));
-                    }
-                }
-            }
-        }
-        if(searchVectorDirections.size() == 0) {
-            for(int i=-1;i<2;i++) {
-                for(int k=-1;k<2;k++) {
-                    for(int j=-1;j<2;j++) {
-                        searchVectorDirections.add(new Vec3i(i,j,k));
-                    }
-                }
-            }
-        }
         if(livingEntity.getLevel().isClientSide()) {
             if(livingEntity instanceof Player player && player.tickCount%3==0) {
                 IntuitionResult intuitionResult = IntuitionResult.getInstance();
@@ -104,4 +88,16 @@ public class LivingEntityMixin {
         }
         return list;
     }
-}
+
+    private void initArray(int n, List<Vec3i> list) {
+        if(list.size() == 0) {
+            for(int i=-n;i<n+1;i++) {
+                for(int j=-n;j<n+1;j++) {
+                    for(int k=-n;k<n+1;k++) {
+                        list.add(new Vec3i(i,j,k));
+                    }
+                }
+            }
+        }
+    }
+ }
