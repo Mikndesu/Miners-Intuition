@@ -48,8 +48,8 @@ public class LivingEntityMixin {
     @Inject(method= "tick()V", at=@At("HEAD"))
     private void inject(CallbackInfo ci) {
         int radius = MinersIntuition.configHolder.effectiveRadius;
-        initArray(1, searchVectorWhenWalking);
-        initArray(radius, searchVectorDirections);
+        initArray(1, searchVectorDirections);
+        initArray(radius, searchVectorWhenWalking);
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         if(livingEntity.getLevel().isClientSide()) {
             if(livingEntity instanceof Player player && player.tickCount%3==0) {
