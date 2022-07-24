@@ -35,6 +35,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MinersIntuition implements ClientModInitializer {
@@ -56,7 +57,8 @@ public class MinersIntuition implements ClientModInitializer {
             } catch(ResourceLocationException e) {
                 continue;
             }
-        }  
+        }
+        acceptedBlocks.add(Blocks.LAVA.defaultBlockState());
     }
     
 }
