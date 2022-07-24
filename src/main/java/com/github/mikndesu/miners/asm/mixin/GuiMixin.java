@@ -65,6 +65,7 @@ public class GuiMixin {
             if (element.getValue() != 0) {
                 if (element.getKey() == Blocks.LAVA.defaultBlockState() && element.getValue()>=5 && isLavaCautionAvailable(player)) {
                     String text = "Caution: Lava Lake may be near by!";
+                    // In this context, 0xDC143C stands for crimson red colour.
                     textRenderer.draw(poseStack, text, (client.getWindow().getGuiScaledWidth()-client.font.width(text))/2, baseY + 5, 0xDC143C);
                 } else {
                     String text = element.getValue() > 30 ? "30+" : String.valueOf(element.getValue());
